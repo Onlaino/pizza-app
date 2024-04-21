@@ -1,0 +1,12 @@
+.layout {
+	display: flex;
+	min-height: 100vh;
+}
+
+.sidebar {
+	border-right: 1px solid var(--separator-color);
+	padding: 30px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
