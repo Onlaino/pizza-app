@@ -1,5 +1,5 @@
-import cl from './Input.module.css';
 import cn from 'classnames';
+import cl from './Input.module.css';
 import { forwardRef } from 'react';
 import { InputProps } from './input.props';
 

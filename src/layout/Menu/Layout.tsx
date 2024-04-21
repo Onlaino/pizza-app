@@ -1,32 +1,48 @@
-import { Link, Outlet } from 'react-router-dom';
 import cl from './Layout.module.css';
 import { Button } from '../../components/Button/Button';
+import { NavLink, Outlet } from 'react-router-dom';
+import cn from 'classnames'
 
 export const Layout = () => {
-	console.log('first')
+
 	return (
 		<div className={cl.layout}>
 			<div className={cl.sidebar}>
 				<div className={cl.user}>
-					<img src='/Intersect.png' alt='' />
+					<img className={cl.avatar} src='/Intersect.svg' alt='avatar' />
 					<div className={cl.name}>Oleg Vasilev</div>
 					<div className={cl.email}>v.oleg@gmail.com</div>
 				</div>
 				<div className={cl.menu}>
-					<Link to='/' className={cl.link}>
+					<NavLink
+						to='/'
+						className={({ isActive }) =>
+							cn(cl.link, {
+								[cl.active]: isActive,
+							})
+						}
+					>
 						<img src='/menu-icon.svg' alt='menu-icon' />
 						Menu
-					</Link>
-					<Link to='/cart' className={cl.link}>
+					</NavLink>
+					<NavLink
+						to='/cart'
+						className={({ isActive }) =>
+							cn(cl.link, {
+								[cl.active]: isActive,
+							})
+						}
+					>
 						<img src='/cart-icon.svg' alt='cart-icon' />
 						Cart
-					</Link>
+					</NavLink>
 				</div>
-				<Button>
-					<img src="/exit.svg" alt="выход" />
+				<Button className={cl.exit}>
+					<img src='/exit.svg' alt='выход' />
+					Выход
 				</Button>
 			</div>
-			<div>
+			<div className={cl.content}>
 				<Outlet />
 			</div>
 		</div>

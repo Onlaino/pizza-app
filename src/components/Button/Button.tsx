@@ -1,6 +1,6 @@
-import { ButtonProps } from './button.props.ts';
-import cl from './Button.module.css';
 import cn from 'classnames';
+import cl from './Button.module.css';
+import { ButtonProps } from './button.props.ts';
 
 
 export const Button = ({ children, className, appearence = 'small',  ...props }: ButtonProps) => {
