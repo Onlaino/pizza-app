@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
 import cl from './ProductCard.module.css';
+import { Link } from 'react-router-dom';
 import { ProductCardProps } from './productCard.props';
 
 export const ProductCard = (props : ProductCardProps) => {
