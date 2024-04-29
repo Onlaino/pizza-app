@@ -1,10 +1,15 @@
 import cl from './Layout.module.css';
 import { Button } from '../../components/Button/Button';
-import { NavLink, Outlet } from 'react-router-dom';
-import cn from 'classnames'
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import cn from 'classnames';
 
 export const Layout = () => {
+	const navigate = useNavigate();
 
+	const logOut = () => {
+		localStorage.removeItem('jwt');
+		navigate('auth/login');
+	};
 
 	return (
 		<div className={cl.layout}>
@@ -38,7 +43,7 @@ export const Layout = () => {
 						Cart
 					</NavLink>
 				</div>
-				<Button className={cl.exit}>
+				<Button className={cl.exit} onClick={logOut}>
 					<img src='/exit.svg' alt='выход' />
 					Выход
 				</Button>
@@ -48,4 +53,4 @@ export const Layout = () => {
 			</div>
 		</div>
 	);
-}
+};

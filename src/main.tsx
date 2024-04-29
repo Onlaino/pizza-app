@@ -3,8 +3,6 @@ import React, { Suspense, lazy } from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider, createBrowserRouter, defer } from 'react-router-dom';
 import axios from 'axios';
-
-import { App } from './App.tsx';
 import { Cart } from './pages/Cart/Cart.tsx';
 import { Layout } from './layout/Menu/Layout.tsx';
 import { Product } from './pages/Product/Product.tsx';
@@ -13,13 +11,18 @@ import { PREFIX } from './helpers/API.ts';
 import { AuthLayout } from './layout/Auth/AuthLayout.tsx';
 import { Login } from './pages/Login/Login.tsx';
 import { Register } from './pages/Register/Register.tsx';
+import { RequireAuth } from './helpers/RequireAuth.tsx';
 
 const Menu = lazy(() => import('./pages/Menu/Menu.tsx'));
 
 const router = createBrowserRouter([
 	{
 		path: '/',
-		element: <Layout />,
+		element: (
+			<RequireAuth>
+				<Layout />
+			</RequireAuth>
+		),
 		children: [
 			{
 				path: '/',
@@ -68,15 +71,15 @@ const router = createBrowserRouter([
 	},
 	{
 		path: '/auth',
-		element: <AuthLayout/>,
+		element: <AuthLayout />,
 		children: [
 			{
 				path: 'login',
-				element: <Login/>,
+				element: <Login />,
 			},
 			{
 				path: 'register',
-				element: <Register/>,
+				element: <Register />,
 			},
 		],
 	},
@@ -89,6 +92,5 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
 		<RouterProvider router={router} />
-		<App />
 	</React.StrictMode>
 );
