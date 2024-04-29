@@ -9,9 +9,7 @@ export const App = () => {
 
 	return (
 		<>
-			<Button onClick={addCounter}>Button</Button>
-			<Button appearence='big'>big</Button>
-			<Input placeholder='email' />
+			
 		</>
 	);
 };
