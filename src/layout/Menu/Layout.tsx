@@ -1,13 +1,24 @@
-import cl from './Layout.module.css';
-import { Button } from '../../components/Button/Button';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import cn from 'classnames';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { Button } from '../../components/Button/Button';
+import { AppDispatch, RootState } from '../../store/store';
+import { getProfile, userActions } from '../../store/user.slice';
+import cl from './Layout.module.css';
 
 export const Layout = () => {
 	const navigate = useNavigate();
+	const dispatch = useDispatch<AppDispatch>();
+	const profile = useSelector((s: RootState) => s.user.profile);
+	const products = useSelector((s: RootState) => s.cart.products);
+
+	useEffect(() => {
+		dispatch(getProfile());
+	}, [dispatch]);
 
 	const logOut = () => {
-		localStorage.removeItem('jwt');
+		dispatch(userActions.logout());
 		navigate('auth/login');
 	};
 
@@ -16,8 +27,8 @@ export const Layout = () => {
 			<div className={cl.sidebar}>
 				<div className={cl.user}>
 					<img className={cl.avatar} src='/Intersect.svg' alt='avatar' />
-					<div className={cl.name}>Oleg Vasilev</div>
-					<div className={cl.email}>v.oleg@gmail.com</div>
+					<div className={cl.name}>{profile?.name}</div>
+					<div className={cl.email}>{profile?.email}</div>
 				</div>
 				<div className={cl.menu}>
 					<NavLink
@@ -41,6 +52,10 @@ export const Layout = () => {
 					>
 						<img src='/cart-icon.svg' alt='cart-icon' />
 						Cart
+						<br />
+						<span className={cl.cartCount}>
+							{products.reduce((acc, item) => (acc += item.count), 0)}
+						</span>
 					</NavLink>
 				</div>
 				<Button className={cl.exit} onClick={logOut}>

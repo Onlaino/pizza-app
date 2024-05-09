@@ -1,12 +1,13 @@
 import cl from './Login.module.css';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../../components/Button/Button';
 import { Heading } from '../../components/Heading/Heading';
 import { Input } from '../../components/Input/Input';
-import { PREFIX } from '../../helpers/API';
-import axios, { AxiosError } from 'axios';
-import { LoginResponse } from '../../interfaces/auth.interface';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch } from '../../store/store';
+import { login, userActions } from '../../store/user.slice';
+import { RootState } from '../../store/store';
 
 export interface ILoginForm {
 	email: {
@@ -18,36 +19,37 @@ export interface ILoginForm {
 }
 
 export const Login = ({}) => {
-	const [error, setError] = useState<string | null>()
+	const [error, setError] = useState<string | null>();
 	const navigate = useNavigate();
+	const dispatch = useDispatch<AppDispatch>();
+
+
+	const { jwt, loginErrorMessage } = useSelector(
+		(state: RootState) => state.user
+	);
+
+	useEffect(() => {
+		if (jwt) {
+			navigate('/');
+		}
+	}, [jwt, navigate]);
+
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		setError(null);
+		dispatch(userActions.clearLoginError());
 		const target = e.target as typeof e.target & ILoginForm;
 		const { email, password } = target;
 		sendLogin(email.value, password.value);
 	};
 
 	const sendLogin = async (email: string, password: string) => {
-		try {
-			const { data } = await axios.post<LoginResponse>(`${PREFIX}/auth/login`, {
-				email,
-				password,
-			});
-			console.log(data);
-			localStorage.setItem('jwt' , data.access_token);
-			navigate('/');
-		} catch (e) {
-			if (e instanceof AxiosError) {
-				setError(e.response?.data.message);
-			}
-		}
+		dispatch(login({ email, password }));
 	};
 
 	return (
 		<section className={cl.login}>
 			<Heading>Вход</Heading>
-			{error && <div className={cl.error}>{error}</div>}
+			{loginErrorMessage && <div className={cl.error}>{loginErrorMessage}</div>}
 			<form className={cl.form} onSubmit={handleSubmit}>
 				<div className={cl.field}>
 					<label htmlFor='email' className={cl.label}>

@@ -1,0 +1,41 @@
+.head {
+	margin-bottom: 40px;
+}
+
+.button {
+	margin-top: 70px;
+	max-width: 512px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.line {
+	display: flex;
+	justify-content: space-between;
+	padding: 17px 0;
+	max-width: 512px;
+}
+
+.line span {
+	color: #9796a1;
+	font-size: 14px;
+}
+
+.hr {
+	max-width: 512px;
+	margin: 0;
+	border: 1px solid #f1f2f3;
+}
+
+.text {
+	font-weight: 400;
+	font-size: 16px;
+	color: var(--text-color);
+}
+
+.price {
+	font-weight: 400;
+	font-size: 19px;
+	color: var(--text-color);
+}
